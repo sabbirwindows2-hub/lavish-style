@@ -1,0 +1,6 @@
+.product-image {
+    width: 100%;
+    height: 350px;
+    object-fit: cover; /* ছবি যেন কেটে না যায় বা চ্যাপ্টা না হয়ে যায় */
+    border-radius: 8px 8px 0 0;
+}
