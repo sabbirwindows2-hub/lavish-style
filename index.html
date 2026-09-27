@@ -9,13 +9,21 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <style>
+    .brand-logo-img{width:92px;height:58px;object-fit:contain;display:block;mix-blend-mode:multiply}
+    .hero-photo-wrap{width:min(430px,100%);height:560px;border-radius:220px 220px 35px 35px;overflow:hidden;box-shadow:0 24px 55px rgba(70,20,35,.18);background:#f7eee9;transform:rotate(2deg)}
+    .hero-product-photo{width:100%;height:100%;object-fit:cover;object-position:center;display:block;transform:rotate(-2deg) scale(1.02)}
+    .collection-product-photo{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+    .product-image.real-photo{padding:0;overflow:hidden;background:#f7eee9}
+    @media(max-width:700px){.brand-logo-img{width:82px;height:52px}.hero-photo-wrap{height:430px;border-radius:180px 180px 25px 25px}}
+  </style>
 </head>
 <body>
   <div class="topbar">🚚 সারা বাংলাদেশে কুরিয়ার ডেলিভারি • 💬 WhatsApp-এ অর্ডার করুন</div>
 
   <header class="header">
-    <a class="logo" href="#home">
-      <span>Lavish</span><small>STYLE</small>
+    <a class="logo" href="#home" aria-label="Lavish Style Home">
+      <img class="brand-logo-img" src="lavish-style-logo.png" alt="Lavish Style - House of Saree">
     </a>
     <button class="menu-toggle" aria-label="মেনু খুলুন">☰</button>
     <nav class="nav">
@@ -24,7 +32,7 @@
       <a href="#about">আমাদের সম্পর্কে</a>
       <a href="#contact">যোগাযোগ</a>
     </nav>
-    <a class="header-wa" href="https://wa.me/8801777249595" target="_blank">WhatsApp</a>
+    <a class="header-wa" href="https://wa.me/8801777249595" target="_blank" rel="noopener">WhatsApp</a>
   </header>
 
   <main id="home">
@@ -35,11 +43,14 @@
         <p>এম্ব্রয়ডারী, সূতার কাজ ও Running Blouse Piece সহ বাছাই করা প্রিমিয়াম বুটিক শাড়ি।</p>
         <div class="hero-buttons">
           <a class="btn primary" href="#shop">কালেকশন দেখুন</a>
-          <a class="btn outline" href="https://wa.me/8801777249595?text=আসসালামু%20আলাইকুম,%20আমি%20শাড়ির%20কালেকশন%20দেখতে%20চাই।" target="_blank">WhatsApp-এ কথা বলুন</a>
+          <a class="btn outline" href="https://wa.me/8801777249595?text=আসসালামু%20আলাইকুম,%20আমি%20শাড়ির%20কালেকশন%20দেখতে%20চাই।" target="_blank" rel="noopener">WhatsApp-এ কথা বলুন</a>
         </div>
       </div>
+
       <div class="hero-art">
-        <div class="saree-shape"></div>
+        <div class="hero-photo-wrap">
+          <img class="hero-product-photo" src="saree-pink.jpg" alt="Lavish Style Premium Pink Saree">
+        </div>
         <div class="hero-badge"><strong>NEW</strong><span>Collection</span></div>
       </div>
     </section>
@@ -67,11 +78,17 @@
 
       <div class="products">
         <article class="product-card" data-category="boutique">
-          <div class="product-image image-one"><span>Premium<br>Boutique</span></div>
+          <div class="product-image real-photo">
+            <img class="collection-product-photo" src="saree-pink.jpg" alt="Lavish Style Premium Pink Boutique Saree">
+          </div>
           <div class="product-info">
-            <p class="tag">BOUTIQUE</p><h3>Elegant Boutique Saree</h3>
-            <p>প্রিমিয়াম ফিনিশ • Running Blouse Piece</p>
-            <div class="product-bottom"><strong>৳ ২,৮৫০</strong><button onclick="orderProduct('Elegant Boutique Saree', '২,৮৫০')">অর্ডার</button></div>
+            <p class="tag">BOUTIQUE</p>
+            <h3>Premium Pink Boutique Saree</h3>
+            <p>এম্ব্রয়ডারী ও সূতার কাজ • Running Blouse Piece</p>
+            <div class="product-bottom">
+              <strong>মূল্য জানতে WhatsApp করুন</strong>
+              <button onclick="orderProduct('Premium Pink Boutique Saree', 'মূল্য জানতে চাই')">অর্ডার</button>
+            </div>
           </div>
         </article>
 
@@ -137,15 +154,29 @@
       <p class="eyebrow">READY TO ORDER?</p>
       <h2>আপনার পছন্দের শাড়িটি আজই বুক করুন</h2>
       <p>শাড়ির ছবি, দাম ও ডেলিভারি সম্পর্কে জানতে WhatsApp-এ মেসেজ করুন।</p>
-      <a class="btn primary" href="https://wa.me/8801777249595?text=আসসালামু%20আলাইকুম,%20আমি%20Lavish%20Style-এর%20শাড়ি%20অর্ডার%20করতে%20চাই।" target="_blank">WhatsApp-এ অর্ডার করুন</a>
+      <a class="btn primary" href="https://wa.me/8801777249595?text=আসসালামু%20আলাইকুম,%20আমি%20Lavish%20Style-এর%20শাড়ি%20অর্ডার%20করতে%20চাই।" target="_blank" rel="noopener">WhatsApp-এ অর্ডার করুন</a>
     </section>
   </main>
 
   <footer id="contact">
     <div class="footer-grid">
-      <div><a class="logo light" href="#home"><span>Lavish</span><small>STYLE</small></a><p>Premium Boutique Saree & Fashion Collection.</p></div>
-      <div><h4>যোগাযোগ</h4><p>📱 01777-249595</p><p>✉️ sabbirwindows2@gmail.com</p></div>
-      <div><h4>দ্রুত লিংক</h4><a href="#shop">শাড়ির কালেকশন</a><a href="#about">আমাদের সম্পর্কে</a><a href="#contact">যোগাযোগ</a></div>
+      <div>
+        <a class="logo light" href="#home" aria-label="Lavish Style Home">
+          <img class="brand-logo-img" src="lavish-style-logo.png" alt="Lavish Style - House of Saree">
+        </a>
+        <p>Premium Boutique Saree & Fashion Collection.</p>
+      </div>
+      <div>
+        <h4>যোগাযোগ</h4>
+        <p>📱 01777-249595</p>
+        <p>✉️ sabbirwindows2@gmail.com</p>
+      </div>
+      <div>
+        <h4>দ্রুত লিংক</h4>
+        <a href="#shop">শাড়ির কালেকশন</a>
+        <a href="#about">আমাদের সম্পর্কে</a>
+        <a href="#contact">যোগাযোগ</a>
+      </div>
     </div>
     <div class="copyright">© <span id="year"></span> Lavish Style. All Rights Reserved.</div>
   </footer>
