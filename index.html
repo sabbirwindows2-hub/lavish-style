@@ -182,6 +182,67 @@
     </div>
     <div class="copyright">© <span id="year"></span> Lavish Style. All Rights Reserved.</div>
   </footer>
-  
-</body>
+  <!-- Order Modal -->
+<div id="orderModal" class="order-modal">
+  <div class="order-box">
+
+    <button class="close-order" onclick="closeOrder()">×</button>
+
+    <h2>🛍️ অর্ডার করুন</h2>
+
+    <p class="selected-product">
+      পণ্য: <strong id="orderProductName"></strong>
+    </p>
+
+    <form id="orderForm">
+
+      <label>পূর্ণ নাম *</label>
+      <input type="text" id="customerName" placeholder="আপনার পূর্ণ নাম" required>
+
+      <label>মোবাইল নম্বর *</label>
+      <input type="tel" id="customerPhone" placeholder="01XXXXXXXXX" required>
+
+      <label>জেলা *</label>
+      <select id="customerDistrict" required>
+        <option value="">জেলা নির্বাচন করুন</option>
+        <option>ঢাকা</option>
+        <option>গাজীপুর</option>
+        <option>নারায়ণগঞ্জ</option>
+        <option>চট্টগ্রাম</option>
+        <option>কুমিল্লা</option>
+        <option>সিলেট</option>
+        <option>রাজশাহী</option>
+        <option>খুলনা</option>
+        <option>বরিশাল</option>
+        <option>রংপুর</option>
+        <option>ময়মনসিংহ</option>
+        <option>অন্যান্য</option>
+      </select>
+
+      <label>সম্পূর্ণ ঠিকানা *</label>
+      <textarea id="customerAddress" placeholder="বাসা/ফ্ল্যাট, রোড, এলাকা ইত্যাদি লিখুন" required></textarea>
+
+      <label>পরিমাণ</label>
+      <input type="number" id="orderQuantity" value="1" min="1">
+
+      <div class="order-summary">
+        <p>পণ্যের মূল্য: <span id="orderSubtotal">৳ ০</span></p>
+        <p>ডেলিভারি চার্জ: <span id="deliveryCharge">৳ ০</span></p>
+        <hr>
+        <p class="order-total">মোট: <strong id="orderTotal">৳ ০</strong></p>
+      </div>
+
+      <p class="payment-method">
+        💵 পেমেন্ট: <strong>Cash on Delivery</strong>
+      </p>
+
+      <button type="submit" class="place-order-btn">
+        অর্ডার কনফার্ম করুন
+      </button>
+
+    </form>
+
+  </div>
+</div>
+ </body>
 </html>
