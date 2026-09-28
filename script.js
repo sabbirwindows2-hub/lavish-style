@@ -1,356 +1,521 @@
-```javascript
-// ===============================
-// MOBILE MENU
-// ===============================
+/* =====================================================
+   LAVISH STYLE
+   MAIN JAVASCRIPT
+===================================================== */
 
-const menuToggle = document.querySelector('.menu-toggle');
-const nav = document.querySelector('.nav');
+document.addEventListener("DOMContentLoaded", function () {
 
-if (menuToggle && nav) {
-  menuToggle.addEventListener('click', () => {
-    nav.classList.toggle('open');
-  });
+  /* ===================================================
+     MOBILE MENU
+  =================================================== */
 
-  document.querySelectorAll('.nav a').forEach(link => {
-    link.addEventListener('click', () => {
-      nav.classList.remove('open');
-    });
-  });
-}
+  const menuToggle = document.getElementById("menuToggle");
+  const mainNav = document.getElementById("mainNav");
 
+  if (menuToggle && mainNav) {
 
-// ===============================
-// PRODUCT FILTER
-// ===============================
-
-document.querySelectorAll('.filter').forEach(button => {
-
-  button.addEventListener('click', () => {
-
-    document.querySelectorAll('.filter').forEach(btn => {
-      btn.classList.remove('active');
+    menuToggle.addEventListener("click", function () {
+      mainNav.classList.toggle("open");
     });
 
-    button.classList.add('active');
+    mainNav.querySelectorAll("a").forEach(function (link) {
 
-    const filter = button.dataset.filter;
+      link.addEventListener("click", function () {
+        mainNav.classList.remove("open");
+      });
 
-    document.querySelectorAll('.product-card').forEach(card => {
+    });
+  }
 
-      if (filter === 'all' || card.dataset.category === filter) {
-        card.style.display = '';
-      } else {
-        card.style.display = 'none';
-      }
+
+  /* ===================================================
+     COLLECTION FILTER
+  =================================================== */
+
+  const filterButtons = document.querySelectorAll(".filter");
+  const productCards = document.querySelectorAll(".product-card");
+
+  filterButtons.forEach(function (button) {
+
+    button.addEventListener("click", function () {
+
+      filterButtons.forEach(function (btn) {
+        btn.classList.remove("active");
+      });
+
+      button.classList.add("active");
+
+      const selectedFilter = button.getAttribute("data-filter");
+
+      productCards.forEach(function (card) {
+
+        const category = card.getAttribute("data-category");
+
+        if (
+          selectedFilter === "all" ||
+          category === selectedFilter
+        ) {
+          card.classList.remove("hidden");
+        } else {
+          card.classList.add("hidden");
+        }
+
+      });
 
     });
 
   });
 
-});
+
+  /* ===================================================
+     ORDER VARIABLES
+  =================================================== */
+
+  let selectedProduct = "";
+  let selectedPrice = 0;
 
 
-// ===============================
-// ORDER VARIABLES
-// ===============================
+  /* ===================================================
+     ORDER ELEMENTS
+  =================================================== */
 
-let selectedProduct = '';
-let selectedPrice = 0;
+  const orderModal = document.getElementById("orderModal");
+  const orderForm = document.getElementById("orderForm");
 
+  const orderProductName =
+    document.getElementById("orderProductName");
 
-// ===============================
-// OPEN ORDER MODAL
-// ===============================
+  const customerName =
+    document.getElementById("customerName");
 
-function orderProduct(name, price) {
-
-  selectedProduct = name;
-  selectedPrice = Number(price);
-
-  const productName =
-    document.getElementById('orderProductName');
-
-  const modal =
-    document.getElementById('orderModal');
-
-  const form =
-    document.getElementById('orderForm');
-
-  const quantity =
-    document.getElementById('orderQuantity');
-
-  if (productName) {
-    productName.textContent = name;
-  }
-
-  if (form) {
-    form.reset();
-  }
-
-  if (quantity) {
-    quantity.value = 1;
-  }
-
-  if (modal) {
-    modal.style.display = 'flex';
-  }
-
-  updateOrderTotal();
-}
-
-
-// ===============================
-// CLOSE ORDER MODAL
-// ===============================
-
-function closeOrder() {
-
-  const modal =
-    document.getElementById('orderModal');
-
-  if (modal) {
-    modal.style.display = 'none';
-  }
-
-}
-
-
-// ===============================
-// DELIVERY CHARGE
-// ===============================
-
-const districtSelect =
-  document.getElementById('customerDistrict');
-
-const quantityInput =
-  document.getElementById('orderQuantity');
-
-if (districtSelect) {
-  districtSelect.addEventListener(
-    'change',
-    updateOrderTotal
-  );
-}
-
-if (quantityInput) {
-  quantityInput.addEventListener(
-    'input',
-    updateOrderTotal
-  );
-}
-
-
-// ===============================
-// UPDATE ORDER TOTAL
-// ===============================
-
-function updateOrderTotal() {
-
-  const quantity =
-    Number(
-      document.getElementById('orderQuantity')?.value
-    ) || 1;
+  const customerPhone =
+    document.getElementById("customerPhone");
 
   const district =
-    document.getElementById('customerDistrict')?.value || '';
+    document.getElementById("district");
 
-  const subtotal =
-    selectedPrice * quantity;
+  const customerAddress =
+    document.getElementById("customerAddress");
 
-  // ঢাকা = 70 টাকা
-  // অন্যান্য জেলা = 120 টাকা
+  const quantityInput =
+    document.getElementById("quantity");
 
-  const delivery =
-    district === 'ঢাকা' ? 70 : 120;
+  const qtyMinus =
+    document.getElementById("qtyMinus");
 
-  const total =
-    subtotal + delivery;
-
+  const qtyPlus =
+    document.getElementById("qtyPlus");
 
   const subtotalElement =
-    document.getElementById('orderSubtotal');
+    document.getElementById("subtotal");
 
   const deliveryElement =
-    document.getElementById('deliveryCharge');
+    document.getElementById("deliveryCharge");
 
   const totalElement =
-    document.getElementById('orderTotal');
+    document.getElementById("totalPrice");
 
 
-  if (subtotalElement) {
-    subtotalElement.textContent =
-      `৳ ${subtotal.toLocaleString('bn-BD')}`;
+  /* ===================================================
+     OPEN ORDER MODAL
+  =================================================== */
+
+  window.orderProduct = function (productName, price) {
+
+    selectedProduct = productName;
+    selectedPrice = Number(price);
+
+    if (orderProductName) {
+      orderProductName.textContent = selectedProduct;
+    }
+
+    if (orderForm) {
+      orderForm.reset();
+    }
+
+    if (quantityInput) {
+      quantityInput.value = 1;
+    }
+
+    updateOrderTotal();
+
+    if (orderModal) {
+
+      orderModal.classList.add("show");
+      orderModal.setAttribute("aria-hidden", "false");
+
+      document.body.classList.add("modal-open");
+
+      setTimeout(function () {
+
+        if (customerName) {
+          customerName.focus();
+        }
+
+      }, 100);
+
+    }
+
+  };
+
+
+  /* ===================================================
+     CLOSE ORDER MODAL
+  =================================================== */
+
+  window.closeOrder = function () {
+
+    if (orderModal) {
+
+      orderModal.classList.remove("show");
+
+      orderModal.setAttribute("aria-hidden", "true");
+
+      document.body.classList.remove("modal-open");
+
+    }
+
+  };
+
+
+  /* ===================================================
+     DELIVERY + TOTAL CALCULATION
+  =================================================== */
+
+  function updateOrderTotal() {
+
+    const quantity =
+      Number(quantityInput ? quantityInput.value : 1) || 1;
+
+    const subtotal =
+      selectedPrice * quantity;
+
+    let delivery = 0;
+
+    /*
+      ঢাকা = ৳70
+      অন্যান্য জেলা = ৳120
+      জেলা নির্বাচন না করলে = ৳0
+    */
+
+    if (district && district.value === "ঢাকা") {
+
+      delivery = 70;
+
+    } else if (district && district.value !== "") {
+
+      delivery = 120;
+
+    }
+
+    const total =
+      subtotal + delivery;
+
+
+    if (subtotalElement) {
+      subtotalElement.textContent =
+        "৳ " + subtotal.toLocaleString("bn-BD");
+    }
+
+    if (deliveryElement) {
+      deliveryElement.textContent =
+        "৳ " + delivery.toLocaleString("bn-BD");
+    }
+
+    if (totalElement) {
+      totalElement.textContent =
+        "৳ " + total.toLocaleString("bn-BD");
+    }
+
   }
 
-  if (deliveryElement) {
-    deliveryElement.textContent =
-      `৳ ${delivery.toLocaleString('bn-BD')}`;
+
+  /* ===================================================
+     DISTRICT CHANGE
+  =================================================== */
+
+  if (district) {
+
+    district.addEventListener("change", function () {
+      updateOrderTotal();
+    });
+
   }
 
-  if (totalElement) {
-    totalElement.textContent =
-      `৳ ${total.toLocaleString('bn-BD')}`;
+
+  /* ===================================================
+     QUANTITY PLUS
+  =================================================== */
+
+  if (qtyPlus) {
+
+    qtyPlus.addEventListener("click", function () {
+
+      let quantity =
+        Number(quantityInput.value) || 1;
+
+      if (quantity < 20) {
+        quantity++;
+      }
+
+      quantityInput.value = quantity;
+
+      updateOrderTotal();
+
+    });
+
   }
 
-}
+
+  /* ===================================================
+     QUANTITY MINUS
+  =================================================== */
+
+  if (qtyMinus) {
+
+    qtyMinus.addEventListener("click", function () {
+
+      let quantity =
+        Number(quantityInput.value) || 1;
+
+      if (quantity > 1) {
+        quantity--;
+      }
+
+      quantityInput.value = quantity;
+
+      updateOrderTotal();
+
+    });
+
+  }
 
 
-// ===============================
-// ORDER CONFIRM
-// ===============================
+  /* ===================================================
+     PHONE NUMBER VALIDATION
+  =================================================== */
 
-const orderForm =
-  document.getElementById('orderForm');
+  if (customerPhone) {
 
-if (orderForm) {
+    customerPhone.addEventListener("input", function () {
 
-  orderForm.addEventListener(
-    'submit',
-    function(event) {
+      this.value = this.value
+        .replace(/\D/g, "")
+        .slice(0, 11);
+
+    });
+
+  }
+
+
+  /* ===================================================
+     ORDER FORM SUBMIT
+  =================================================== */
+
+  if (orderForm) {
+
+    orderForm.addEventListener("submit", function (event) {
 
       event.preventDefault();
 
 
-      // Customer Information
+      /* -----------------------------------------------
+         GET CUSTOMER INFORMATION
+      ------------------------------------------------ */
 
       const name =
-        document.getElementById('customerName')
-        .value
-        .trim();
+        customerName.value.trim();
 
       const phone =
-        document.getElementById('customerPhone')
-        .value
-        .trim();
+        customerPhone.value.trim();
 
-      const district =
-        document.getElementById('customerDistrict')
-        .value;
+      const selectedDistrict =
+        district.value;
 
       const address =
-        document.getElementById('customerAddress')
-        .value
-        .trim();
+        customerAddress.value.trim();
 
       const quantity =
-        Number(
-          document.getElementById('orderQuantity')
-          .value
-        ) || 1;
+        Number(quantityInput.value) || 1;
 
 
-      // Price Calculation
+      /* -----------------------------------------------
+         BASIC VALIDATION
+      ------------------------------------------------ */
+
+      if (!name) {
+
+        alert("অনুগ্রহ করে আপনার নাম লিখুন।");
+
+        customerName.focus();
+
+        return;
+      }
+
+
+      if (!/^01\d{9}$/.test(phone)) {
+
+        alert(
+          "সঠিক ১১ সংখ্যার বাংলাদেশি মোবাইল নম্বর দিন।\nউদাহরণ: 017XXXXXXXX"
+        );
+
+        customerPhone.focus();
+
+        return;
+      }
+
+
+      if (!selectedDistrict) {
+
+        alert("অনুগ্রহ করে আপনার জেলা নির্বাচন করুন।");
+
+        district.focus();
+
+        return;
+      }
+
+
+      if (!address) {
+
+        alert("অনুগ্রহ করে আপনার সম্পূর্ণ ঠিকানা লিখুন।");
+
+        customerAddress.focus();
+
+        return;
+      }
+
+
+      /* -----------------------------------------------
+         CALCULATE PRICE
+      ------------------------------------------------ */
 
       const subtotal =
         selectedPrice * quantity;
 
-      const delivery =
-        district === 'ঢাকা' ? 70 : 120;
+      let delivery = 0;
+
+      if (selectedDistrict === "ঢাকা") {
+
+        delivery = 70;
+
+      } else {
+
+        delivery = 120;
+
+      }
 
       const total =
         subtotal + delivery;
 
 
-      // ===============================
-      // WHATSAPP MESSAGE
-      // ===============================
+      /* -----------------------------------------------
+         WHATSAPP MESSAGE
+      ------------------------------------------------ */
+
+      const whatsappNumber =
+        "8801777249595";
+
 
       const message =
-`🛍️ Lavish Style - নতুন অর্ডার
+`🌸 *LAVISH STYLE - NEW ORDER* 🌸
 
-━━━━━━━━━━━━━━━━━━
-📦 অর্ডারের তথ্য
-━━━━━━━━━━━━━━━━━━
-
+🛍️ *পণ্যের তথ্য*
+━━━━━━━━━━━━━━━━
 পণ্য: ${selectedProduct}
 পরিমাণ: ${quantity}
 
-পণ্যের মূল্য: ৳ ${subtotal.toLocaleString('bn-BD')}
-ডেলিভারি চার্জ: ৳ ${delivery.toLocaleString('bn-BD')}
+💰 *মূল্যের তথ্য*
+━━━━━━━━━━━━━━━━
+পণ্যের মূল্য: ৳${subtotal}
+ডেলিভারি চার্জ: ৳${delivery}
+সর্বমোট: ৳${total}
 
-💰 মোট: ৳ ${total.toLocaleString('bn-BD')}
-
-━━━━━━━━━━━━━━━━━━
-👤 কাস্টমারের তথ্য
-━━━━━━━━━━━━━━━━━━
-
+👤 *কাস্টমারের তথ্য*
+━━━━━━━━━━━━━━━━
 নাম: ${name}
 মোবাইল: ${phone}
-জেলা: ${district}
-সম্পূর্ণ ঠিকানা: ${address}
+জেলা: ${selectedDistrict}
+ঠিকানা: ${address}
 
 💵 পেমেন্ট: Cash on Delivery
 
-━━━━━━━━━━━━━━━━━━
-Lavish Style
-Premium Boutique Saree
-━━━━━━━━━━━━━━━━━━`;
+ধন্যবাদ Lavish Style থেকে অর্ডার করার জন্য। ❤️`;
 
 
-      // ===============================
-      // YOUR WHATSAPP NUMBER
-      // ===============================
-
-      const whatsappNumber =
-        '8801777249595';
-
+      /* -----------------------------------------------
+         CREATE WHATSAPP URL
+      ------------------------------------------------ */
 
       const whatsappURL =
-        `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+        "https://wa.me/" +
+        whatsappNumber +
+        "?text=" +
+        encodeURIComponent(message);
 
 
-      // Open WhatsApp
+      /* -----------------------------------------------
+         OPEN WHATSAPP
+      ------------------------------------------------ */
 
       window.open(
         whatsappURL,
-        '_blank'
+        "_blank"
       );
 
 
-      // Close modal
+      /* -----------------------------------------------
+         CLOSE MODAL
+      ------------------------------------------------ */
+
+      setTimeout(function () {
+
+        closeOrder();
+
+      }, 300);
+
+    });
+
+  }
+
+
+  /* ===================================================
+     ESC KEY - CLOSE MODAL
+  =================================================== */
+
+  document.addEventListener("keydown", function (event) {
+
+    if (
+      event.key === "Escape" &&
+      orderModal &&
+      orderModal.classList.contains("show")
+    ) {
 
       closeOrder();
 
     }
-  );
 
-}
-
-
-// ===============================
-// CURRENT YEAR
-// ===============================
-
-const yearElement =
-  document.getElementById('year');
-
-if (yearElement) {
-
-  yearElement.textContent =
-    new Date().getFullYear();
-
-}
+  });
 
 
-// ===============================
-// CLOSE MODAL WHEN CLICKING OUTSIDE
-// ===============================
+  /* ===================================================
+     CURRENT YEAR
+  =================================================== */
 
-const orderModal =
-  document.getElementById('orderModal');
+  const currentYear =
+    document.getElementById("currentYear");
 
-if (orderModal) {
+  if (currentYear) {
 
-  orderModal.addEventListener(
-    'click',
-    function(event) {
+    currentYear.textContent =
+      new Date().getFullYear();
 
-      if (event.target === orderModal) {
-        closeOrder();
-      }
+  }
 
-    }
-  );
 
-}
-```
+  /* ===================================================
+     INITIAL TOTAL
+  =================================================== */
+
+  updateOrderTotal();
+
+});
