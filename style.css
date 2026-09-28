@@ -149,29 +149,3 @@ footer{background:var(--deep);color:#e8dfe1;padding:55px 7% 20px}.light{color:#f
   .order-box {
     padding: 22px 16px;
   }
-}document.getElementById('orderForm').addEventListener('submit', function(event) {
-  event.preventDefault();
-
-  const name = document.getElementById('customerName').value;
-  const phone = document.getElementById('customerPhone').value;
-  const district = document.getElementById('customerDistrict').value;
-  const address = document.getElementById('customerAddress').value;
-  const quantity = Number(document.getElementById('orderQuantity').value) || 1;
-
-  const subtotal = selectedPrice * quantity;
-  const delivery = district === 'ঢাকা' ? 70 : 120;
-  const total = subtotal + delivery;
-
-  alert(
-    `অর্ডার গ্রহণ করা হয়েছে!\n\n` +
-    `পণ্য: ${selectedProduct}\n` +
-    `পরিমাণ: ${quantity}\n` +
-    `পণ্যের মূল্য: ৳ ${subtotal.toLocaleString('bn-BD')}\n` +
-    `ডেলিভারি: ৳ ${delivery.toLocaleString('bn-BD')}\n` +
-    `মোট: ৳ ${total.toLocaleString('bn-BD')}\n\n` +
-    `নাম: ${name}\n` +
-    `মোবাইল: ${phone}`
-  );
-
-  closeOrder();
-});
