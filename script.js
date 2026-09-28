@@ -15,9 +15,34 @@ document.querySelectorAll('.filter').forEach(button => {
   });
 });
 
+let selectedProduct = "";
+let selectedPrice = 0;
 function orderProduct(name, price) {
-  const message = `আসসালামু আলাইকুম, আমি "${name}" অর্ডার করতে চাই। দাম: ৳ ${price}।`;
-  window.open(`https://wa.me/8801777249595?text=${encodeURIComponent(message)}`, '_blank');
-}
+  selectedProduct = name;
+  selectedPrice = Number(price);
 
+  document.getElementById('orderProductName').textContent = name;
+  document.getElementById('orderModal').style.display = 'flex';
+
+  updateOrderTotal();
+}
+document.getElementById('customerDistrict').addEventListener('change', updateOrderTotal);
+
+document.getElementById('orderQuantity').addEventListener('input', updateOrderTotal);
+
+function closeOrder() {
+  document.getElementById('orderModal').style.display = 'none';
+}
 document.getElementById('year').textContent = new Date().getFullYear();
+function updateOrderTotal() {
+  const quantity = Number(document.getElementById('orderQuantity').value) || 1;
+  const district = document.getElementById('customerDistrict').value;
+
+  const subtotal = selectedPrice * quantity;
+  const delivery = district === 'ঢাকা' ? 70 : 120;
+  const total = subtotal + delivery;
+
+  document.getElementById('orderSubtotal').textContent = `৳ ${subtotal.toLocaleString('bn-BD')}`;
+  document.getElementById('deliveryCharge').textContent = `৳ ${delivery.toLocaleString('bn-BD')}`;
+  document.getElementById('orderTotal').textContent = `৳ ${total.toLocaleString('bn-BD')}`;
+}
